@@ -1,19 +1,3 @@
-/**
- * <p>
- * Finalidade da Classe: Finalidade da classe.
- * item de processo em autorização de fornecimento.
- * </p>
- *
- * <p>
- * Copyright: Copyright (c) Synergia - DCC - UFMG
- * </p>
- *
- * @author lucasmonteiro
- * @author Última modificação realizada por : lucasmonteiro $.
- * @version :: 30/06/2016#$.
- *
- */
-
 var pg = require('pg');
 
 // create a config to configure both pooling behavior
@@ -31,8 +15,8 @@ var config = {
 };
 
 //this initializes a connection pool
-//it will keep idle connections open for a 30 seconds
-//and set a limit of maximum 10 idle clients
+//it will keep idle connections open for a 2 seconds
+//and set a limit of maximum 40 idle clients
 var pool = new pg.Pool(config);
 
 pool.on('error', function (err, client) {
@@ -45,6 +29,10 @@ pool.on('error', function (err, client) {
     console.error('idle client error', err.message, err.stack)
 });
 
+/**
+ * Get all states from the database
+ * return [{id:#, name:#}]
+ */
 module.exports.getStates = (function () {
 
     return function (callback) {
@@ -67,6 +55,10 @@ module.exports.getStates = (function () {
 
 })();
 
+/**
+ * Get all cities related to a state
+ * return [{id:#, name:#, code:#}]
+ */
 module.exports.getCitiesByStateId = (function () {
 
     return function (stateId, callback) {
@@ -90,6 +82,10 @@ module.exports.getCitiesByStateId = (function () {
 
 })();
 
+/**
+ * Get all stations related to a city
+ * return [{id:#, name:#, address:#, area:#, flag:#}]
+ */
 module.exports.getStationsByCityId = (function () {
 
     return function (cityId, callback) {
